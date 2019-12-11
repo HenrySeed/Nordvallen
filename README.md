@@ -1,6 +1,6 @@
 # Nordvallen
 
-A Python-based DnD inspired adventure game. Currently more of an engine than a finished game, this combines all the lessons I have learnt from previous python text-based game adventures.
+A Python-based DnD inspired adventure game. Currently more of an engine than a finished game, it combines all the lessons I have learnt from previous python text-based game adventures.
 
 
 ## To-Do
@@ -16,7 +16,7 @@ A Python-based DnD inspired adventure game. Currently more of an engine than a f
 
 ## Installation
 
-Simply clone the repo and run `main.py`
+Simply clone the repo and run.
 
 `git clone https://github.com/HenrySeed/Nordvallen.git`
 
@@ -26,7 +26,7 @@ Simply clone the repo and run `main.py`
 
 ## Screenshots
 
-(See my dotfiled for the Hyper setup used in these screenshots)
+(See my [dotfiles](https://github.com/HenrySeed/Dotfiles) for the Hyper.js setup used in these screenshots)
 
 ![Main Sreen](https://i.imgur.com/SWpyyiY.png)
 ![Combat Screen](https://i.imgur.com/l94Ax9z.png)
