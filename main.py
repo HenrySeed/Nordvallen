@@ -1,5 +1,5 @@
 import os
-from world_data import world, quests
+from world_data import world, quests, player
 from Player import Player, Item, Weapon, Armour
 import time
 from utils import get_term_cols_rows
@@ -9,10 +9,7 @@ from ascii_text import get_ascii
 has_quit = False
 soft_exit = False
 
-player = Player("Hrothgar")
-player.add_item(Weapon("Bastard Sword", "", 10, "sword"))
-player.add_item(Weapon("Quarter Staff", "", 3, "staff"))
-player.add_item(Armour("Leather Leggings", "", 1, "leggings"))
+
 
 os.system('clear')
 print(world.current_area)

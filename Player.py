@@ -23,6 +23,11 @@ class Player():
             "offhand": None
         }
 
+    def take_damage(self, dmg):
+        self.health -= dmg
+        if self.health < 0:
+            self.health = 0
+
     def search_item(self, search):
         simpleSearch = search.lower().replace(" ", "")
         best_option = None
@@ -48,7 +53,6 @@ class Player():
             print(self.get_inv_str())
             print("Couldnt find \"" + search + "\" in your inventory.")
             return False
-        item_name = item.name
 
         if item in self.weapons:
             old_item = self.equipped["hand"]
@@ -82,7 +86,6 @@ class Player():
             print(self.get_inv_str())
             print("Couldnt find \"" + search + "\" in your inventory.")
             return False
-        item_name = item.name
 
         if type(item) == Weapon:
             if self.equipped["hand"] != None:
@@ -174,11 +177,10 @@ class Player():
 
         log.append("\n Equipped")
         log.append(bar)
-        fountItem = False
+
         for key in self.equipped.keys():
             item = self.equipped[key]
             if item != None:
-                fountItem = True
                 if type(item) == Weapon:
                     log.append("| {0:{2}} | {1:{3}} |".format(item.icon + "  " + item.name, str(item.damage) + " DMG", col_maxs[0], col_maxs[1]))
                 elif type(item) == Armour:

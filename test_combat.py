@@ -1,6 +1,6 @@
 from Combat import Enemy, Combat
 from Player import Player, Weapon, Armour
-from bestiary import *
+from bestiary import bastard_sword, quarterstaff
 
 player = Player("Hrothgar")
 player.add_item(bastard_sword)

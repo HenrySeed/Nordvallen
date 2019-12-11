@@ -1,7 +1,10 @@
-from utils import text_wrap
+from utils import text_wrap, print_loading_anim
 from random import randint
 from time import sleep
 from ascii_text import get_ascii
+from Combat import Enemy, Combat
+import os
+
 
 class Area():
     def __init__(self, name, description="", n=None, e=None, s=None, w=None):
@@ -136,10 +139,11 @@ class Area():
 
 
 class World():
-    def __init__(self, start):
+    def __init__(self, start, player):
         self.start = start
         self.locations = [start]
         self.current_area = start
+        self.player = player
 
     def __str__(self):
         return str(self.start)
@@ -159,20 +163,31 @@ class World():
         }
 
         if nextArea != None:
-            print()
+            distance = 3
             header = "   Travelling " + direction_names[direction] + " to " + nextArea.name
-            print(header, end="\r")
-            sleep(0.4)
-            print(header + ".", end="\r")
-            sleep(0.4)
-            print(header + "..", end="\r")
-            sleep(0.4)
-            print(header + "...", end ="\r")
-            sleep(0.4)
-            print(header + "...  You made it safely.", end ="\r")
-            sleep(1)
+            print()
+            safe = None
 
-            self.current_area = nextArea
+            for i in range(0, distance):
+                print(header + ("." * i), end="\r")
+                sleep(0.4)
+                if randint(0,20) == 1:
+                    rand_encounter = Combat(self.player)
+                    safe = rand_encounter.combat_loop()
+                    break
+
+            if safe == None:
+                print(header + "...  You made it safely.", end ="\r")
+                self.current_area = nextArea
+                sleep(1)
+            elif safe == True:
+                print()
+                print_loading_anim("You made it to " + nextArea.name + " safely.", 3)
+                self.current_area = nextArea
+            else:
+                print_loading_anim("You stumble back to " + self.current_area.name + ", defeated", 3)
+
+
             return True
         else:
             return False

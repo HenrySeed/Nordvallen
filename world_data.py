@@ -2,6 +2,12 @@ from Area import World, Area
 from npc_data import arry_npc
 from Quest import Quests, Quest 
 from Player import Item, Weapon, Armour
+from Player import Player
+
+player = Player("Hrothgar")
+player.add_item(Weapon("Bastard Sword", "", 10, "sword"))
+player.add_item(Weapon("Quarter Staff", "", 3, "staff"))
+player.add_item(Armour("Leather Leggings", "", 1, "leggings"))
 
 
 quests = Quests()
@@ -23,4 +29,4 @@ korknev_area.set_link("n", tidefrost_area)
 
 hasselbad_area.add_npcs([arry_npc])
 
-world = World(hasselbad_area)
+world = World(hasselbad_area, player)

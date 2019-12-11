@@ -88,15 +88,14 @@ class Combat():
 
             race = self.type if num == 1 else self.type + 's'
             if total_dmg == 0:
-                return("You hit {} {}, but they just shrugged it off".format(num, race, total_dmg))
+                return "You hit {} {}, but they just shrugged it off".format(num, race)
             else:
-                return("You hit {} {}, dealing {} total damage.".format(num, race, total_dmg))
+                return "You hit {} {}, dealing {} total damage.".format(num, race, total_dmg)
 
         elif mode == "Stab":
             # Check for a miss
             if randint(0, 20) == 1:
                 return("You swung, but missed the " + self.type)
-                return
             # Choose an enemy
             i = randint(0, len(alive_enemies) - 1)
             dmg_dealt = randint(dmg, dmg * 4)
@@ -121,7 +120,7 @@ class Combat():
                 total_damage += dealt
 
 
-        self.player.health -= total_damage
+        self.player.take_damage(total_damage)
         return("{} {} hit you, dealing {} damage".format(num_hits, self.type if num_hits == 1 else self.type + "s", total_damage))
 
 
@@ -151,8 +150,8 @@ class Combat():
                 your_response = self.attack(attacks[0], player_damage)
             if choice == 1: 
                 your_response = self.attack(attacks[1], player_damage)
-            if choice == 2: return
-            if choice == 3: return
+            if choice == 2: return False
+            if choice == 3: return False
 
 
             print(self)
@@ -161,9 +160,11 @@ class Combat():
             if len(self.get_alive_enemies()) < 1: 
                 break
 
+
             enemy_response = self.enemy_attack()
 
-            time.sleep(1)
+   
+
             os.system("clear")
             print(self)
             print(your_response)
@@ -171,21 +172,20 @@ class Combat():
             print(enemy_response)
             print("")
 
+            if self.player.health < 1: 
+                print("\nYou passed out. When you woke up the " + self.type + " were gone.")
+                return False
+
             choice = get_num_option(4)
 
         if choice == "q":
-            return
+            return False
 
         race = self.type if len(self.enemies) == 0 else self.type + "s"
         print()
 
-        print("  You fought off the " + race, end="\r")
-        time.sleep(0.8)
-        print("  You fought off the " + race + ".", end="\r")
-        time.sleep(0.8)
-        print("  You fought off the " + race + "..", end="\r")
-        time.sleep(0.8)
-        print("  You fought off the " + race + "...", end="\n")
+        print("\n\n    You fought off the " + race)
+        return True
 
 
 
@@ -195,7 +195,7 @@ def gen_rand_enemies():
     output = []
     enemy = enemies_data[randint(0, len(enemies_data)-1)]
     num = randint(enemy[4][0], enemy[4][1])
-    for i in range(0, num):
+    for _ in range(0, num):
         weapon = enemy[2][randint(0, len(enemy[2])-1)]
         output.append(Enemy(enemy[0], enemy[1], randint(enemy[3][0], enemy[3][1]), weapon))
     return output

@@ -1,6 +1,7 @@
 from pprint import pprint
 import os
 import subprocess
+import time
 
 def simple_search(search, items):
     simple_search = search.lower().replace(" ", "")
@@ -16,6 +17,12 @@ def simple_search(search, items):
                 best_score = score
 
     return best_option
+
+
+def print_loading_anim(text, delay_secs, dots=3):
+    for i in range(0, dots+1):
+        print("  " + text + (i*"."), end="\r")
+        time.sleep(delay_secs / dots)
 
 
 def get_num_option(max_val):
@@ -111,7 +118,7 @@ def print_table(name, rows, header=None):
             remainingCols = len(col_sizes[index+1:])
             remainingDist = cols - sum(col_sizes[0:index+1])
             thisIndex = index+1
-            for nextcol in col_sizes[index+1:]:
+            for _ in col_sizes[index+1:]:
                 col_sizes[thisIndex] = remainingDist // remainingCols
                 thisIndex += 1
         
