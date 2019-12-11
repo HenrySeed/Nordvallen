@@ -1,17 +1,37 @@
 from utils import text_wrap
 from random import randint
+from time import sleep
+from ascii_text import get_ascii
 
 class Area():
     def __init__(self, name, description="", n=None, e=None, s=None, w=None):
         self.name = name
         self.description = description
 
+        self.items = []
         self.npcs = []
 
         self.north = n
         self.east = e
         self.south = s
         self.west = w
+
+    def search(self):
+        print("  Searching area. ", end="\r")
+        sleep(0.7)
+        print("  Searching area.. ", end="\r")
+        sleep(0.7)
+        print("  Searching area... ")
+        sleep(0.7)
+
+        if len(self.items) == 0:
+            print("You didnt find anything")
+        else:
+            print("\n  You found:")
+            for obj in self.items:
+                print("   " + str(obj))
+
+   
 
     def add_npcs(self, npcs):
         for npc in npcs:
@@ -47,9 +67,56 @@ class Area():
             self.west = area
             area.east = self
 
+    def get_map(self):
+        top_line = ""
+        mid_line = ""
+        bottom_line = ""
+
+        if self.west: 
+            if self.west.west != None: mid_line += "... "
+            mid_line += self.west.name + " --- "
+        else:
+            mid_line += "                  "
+        mid_line += "[ {} ]".format(self.name)
+        if self.east: 
+            mid_line += " --- " + self.east.name 
+            if self.east.east != None: mid_line += " ..."
+        else:
+            mid_line += "                  "
+
+        middle_padding = round(len(mid_line)/2) * " "
+
+        if self.north:
+            north_name = self.north.name
+            if self.north.west != None: north_name = "... " + north_name
+            if self.north.east != None: north_name += " ..."
+
+            padding = (round((len(mid_line) - len(north_name)) / 2)+1) * " "
+            top_line = padding + north_name + "\n" + middle_padding + "|"
+
+        if self.south:
+            south_name = self.south.name
+            if self.south.west != None: south_name = "... " + south_name
+            if self.south.east != None: south_name += " ..."
+
+            padding = round((len(mid_line) - len(south_name)) / 2) * " "
+            bottom_line = middle_padding + "|" + "\n" + padding + south_name
+
+        _ret = "{0}========  Area Map  ========{0}\n\n".format((round(len(mid_line)/2) - 14) * " ")
+        if top_line != "": 
+            _ret += top_line + "\n"
+        else:
+            _ret += "\n\n"
+        _ret += mid_line
+        if bottom_line != "": _ret += "\n" + bottom_line
+
+        return "\n\n" + _ret
+
     def __str__(self):
-        log = []
-        log.append("  =====  " + self.name + "  =====")
+        name = get_ascii(self.name).split("\n")
+
+        log = name
+        log.append("")
         log.append("\n".join(text_wrap(self.description)) + "\n")
 
         for npc in self.npcs:
@@ -57,10 +124,13 @@ class Area():
 
         log.append("")
         
-        if self.north != None:  log.append("North is " + self.north.name)
-        if self.east != None: log.append("East is " + self.east.name)
-        if self.south != None: log.append("South is " + self.south.name)
-        if self.west != None: log.append("West is " + self.west.name)
+        # if self.north != None:  log.append("North is " + self.north.name)
+        # if self.east != None: log.append("East is " + self.east.name)
+        # if self.south != None: log.append("South is " + self.south.name)
+        # if self.west != None: log.append("West is " + self.west.name)
+
+        log.append(self.get_map())
+        log.append("")
 
         return "\n".join(log) + "\n"
 
@@ -81,7 +151,27 @@ class World():
         if direction == "s": nextArea = self.current_area.south
         if direction == "w": nextArea = self.current_area.west
 
+        direction_names = {
+            "n": "North",
+            "e": "East",
+            "s": "South",
+            "w": "West"
+        }
+
         if nextArea != None:
+            print()
+            header = "   Travelling " + direction_names[direction] + " to " + nextArea.name
+            print(header, end="\r")
+            sleep(0.4)
+            print(header + ".", end="\r")
+            sleep(0.4)
+            print(header + "..", end="\r")
+            sleep(0.4)
+            print(header + "...", end ="\r")
+            sleep(0.4)
+            print(header + "...  You made it safely.", end ="\r")
+            sleep(1)
+
             self.current_area = nextArea
             return True
         else:
