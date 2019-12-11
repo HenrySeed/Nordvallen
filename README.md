@@ -1,6 +1,6 @@
 # Nordvallen
 
-A Python-based DnD inspired adventure game. Currently more of an engine than a finished game, this combines all the lessons I learned in previous python text-based game adventures.
+A Python-based DnD inspired adventure game. Currently more of an engine than a finished game, this combines all the lessons I have learnt from previous python text-based game adventures.
 
 
 ## To-Do
