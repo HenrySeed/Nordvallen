@@ -4,13 +4,13 @@ A Python-based DnD inspired adventure game. Currently more of an engine than a f
 
 
 ## To-Do
-* [ ] Tree based area navigation
-* [ ] Inventory, pickup drop area containers etc
-* [ ] Player equip Items, armour
-* [ ] Dialog with NPCs
-* [ ] Map for local area
+* [x] Tree based area navigation
+* [x] Inventory, pickup drop area containers etc
+* [x] Player equip Items, armour
+* [x] Dialog with NPCs
+* [x] Map for local area
 * [ ] Quests with triggers for completion
-* [ ] Combat
+* [x] Combat
 * [ ] Death Mechanic
 * [ ] Main Menu, save loading
 
